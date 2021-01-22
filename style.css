@@ -1,0 +1,5 @@
+#board div {
+  background: #f6f8f9;
+  border: 1px solid #ddd;
+  user-select: none;
+}
