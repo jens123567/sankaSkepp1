@@ -2,17 +2,21 @@ const rows = 10;
 const columns = 10;
 const cellSize = "50px";
 const boats1 = [];
-var showHide1 = 0;
-//brädes färg
-var color1 = "#5d9ad4";
-//markera båt-färg
-var color2 = "#373b40";
-//miss färg
-var color3 = "#dce8f7";
-//träff färg
-var color4 = "#e60000";
+const allCells = [];
+let showHide1 = 0;
 
-//genererar brädet
+//brädes färg
+let color1 = "#5d9ad4";
+//markera båt-färg
+let color2 = "#373b40";
+//miss färg
+let color3 = "#dce8f7";
+//träff färg
+let color4 = "#e60000";
+
+console.log(allCells);
+
+// genererar brädet
 const battleBoard1 = document.querySelector("#board");
 
 battleBoard1.style.display = "grid";
@@ -28,6 +32,7 @@ for (let x = 0; x < columns; x++) {
     cell.addEventListener("click", switch1);
 
     cell.id = `s:${x}:${y}`;
+    let newLength = allCells.push(cell.id);
     //cell.innerHTML = `s:${x}:${y}`;
   }
 }
@@ -55,9 +60,22 @@ p1toggle.addEventListener("click", function () {
   }
 });
 
+// startar om spelet
+const reset = document.querySelector("#reset");
+reset.addEventListener("click", function () {
+  console.log("funkar");
+  for (let i = 0; i < allCells.length; i++) {
+    let id = allCells[i];
+    document.getElementById(id).style.backgroundColor = color1;
+
+    let last = boats1.pop();
+    showHide1 = 0;
+  }
+});
+
 //visar poängen
 function score1() {
-  document.getElementById("#player1Score").innerHTML = `score:${boats1.length}`;
+  document.getElementById("#player1Score").innerText = `score:${boats1.length}`;
 }
 
 //switch för om man ska placera båtar eller spela
@@ -86,7 +104,7 @@ function switch1() {
       if (boats1.includes(this.id)) {
         let pos = boats1.indexOf(this.id);
         let removedItem = boats1.splice(pos, 1);
-        document.getElementById(this.id).style.backgroundColor = color4;
+        this.style.backgroundColor = color4;
 
         score1();
       } else {

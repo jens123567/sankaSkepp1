@@ -1,6 +1,16 @@
-#board div {
+#board > div {
   background: #5d9ad4;
   border: 1px solid #ddd;
   user-select: none;
   border-radius: 6px;
+  transition: 0.1s;
+}
+
+#board > div:hover {
+  background-color: #4c7ead;
+}
+
+button {
+  background-color: #ffffff;
+  height: 40px;
 }
