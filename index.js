@@ -3,7 +3,16 @@ const columns = 10;
 const cellSize = "50px";
 const boats1 = [];
 var showHide1 = 0;
+//brädes färg
+var color1 = "#5d9ad4";
+//markera båt-färg
+var color2 = "#373b40";
+//miss färg
+var color3 = "#dce8f7";
+//träff färg
+var color4 = "#e60000";
 
+//genererar brädet
 const battleBoard1 = document.querySelector("#board");
 
 battleBoard1.style.display = "grid";
@@ -16,34 +25,77 @@ for (let x = 0; x < columns; x++) {
   for (let y = 0; y < rows; y++) {
     const cell = document.createElement("div");
     battleBoard1.appendChild(cell);
-    cell.addEventListener("click", fire);
+    cell.addEventListener("click", switch1);
 
     cell.id = `s:${x}:${y}`;
-    cell.innerHTML = `s:${x}:${y}`;
+    //cell.innerHTML = `s:${x}:${y}`;
   }
 }
 
-function fire() {
-  console.log(this.id);
-
-  if (boats1.includes(this.id)) {
-    let pos = boats1.indexOf(this.id);
-    let removedItem = boats1.splice(pos, 1);
-    document.getElementById(this.id).style.backgroundColor = "#f6f8f9";
-  } else {
-    if (boats1.length < 24) {
-      let newLength = boats1.push(this.id);
-      console.log(boats1);
-      document.getElementById(this.id).style.backgroundColor = "red";
-    } else {
-      alert("båtarna är slut");
-    }
-  }
-}
-
+//ändrar värdet som används i switchen
 const p1toggle = document.querySelector("#p1done");
 p1toggle.addEventListener("click", function () {
-  if (showHide == 1) {
+  if (showHide1 == 0) {
+    showHide1 = 1;
+
+    //ändrar färgen på rutorna (döljer)
+    for (let i = 0; i < boats1.length; i++) {
+      let id1 = boats1[i];
+      document.getElementById(id1).style.backgroundColor = color1;
+      score1();
+    }
+  } else if (showHide1 == 1) {
     showHide1 = 0;
+
+    //ändrar färgen på rutorna (visar)
+    for (let i = 0; i < boats1.length; i++) {
+      let id1 = boats1[i];
+      document.getElementById(id1).style.backgroundColor = color2;
+    }
   }
 });
+
+//visar poängen
+function score1() {
+  document.getElementById("#player1Score").innerHTML = `score:${boats1.length}`;
+}
+
+//switch för om man ska placera båtar eller spela
+function switch1() {
+  switch (showHide1) {
+    //case 0 för att placera båtar
+    case 0:
+      if (boats1.includes(this.id)) {
+        let pos = boats1.indexOf(this.id);
+        let removedItem = boats1.splice(pos, 1);
+        document.getElementById(this.id).style.backgroundColor = color1;
+      } else {
+        if (boats1.length < 24) {
+          let newLength = boats1.push(this.id);
+          console.log(boats1);
+          document.getElementById(this.id).style.backgroundColor = color2;
+        } else {
+          alert("båtarna är slut");
+        }
+      }
+      break;
+    //case 1 för att spela mot varandra
+    case 1:
+      score1();
+
+      if (boats1.includes(this.id)) {
+        let pos = boats1.indexOf(this.id);
+        let removedItem = boats1.splice(pos, 1);
+        document.getElementById(this.id).style.backgroundColor = color4;
+
+        score1();
+      } else {
+        document.getElementById(this.id).style.backgroundColor = color3;
+      }
+
+      break;
+
+    default:
+      break;
+  }
+}

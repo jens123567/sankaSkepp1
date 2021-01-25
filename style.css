@@ -1,5 +1,6 @@
 #board div {
-  background: #f6f8f9;
+  background: #5d9ad4;
   border: 1px solid #ddd;
   user-select: none;
+  border-radius: 6px;
 }
